@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication.Models.ViewModel;
+using WebApplication.Services;
 
 namespace WebApplication.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly LedgerService _ledgerService;
+
         public ActionResult Index()
         {
             return View();
@@ -31,24 +33,13 @@ namespace WebApplication.Controllers
         [ChildActionOnly]
         public ActionResult LedgerList()
         {
-            var list = new List<LedgerViewModel>();
-            var count = 100;
-            var startDate = DateTime.Now.AddMonths(-3);
-            var random = new Random();
-
-            for (var i = 1; i <= count; i++)
+            var list = _ledgerService.GetList();
+            var model = list.Select(x => new LedgerViewModel
             {
-                var num = random.Next(1, 1000);
-
-                list.Add(new LedgerViewModel
-                {
-                    Date = startDate.AddMinutes(num * i),
-                    Type = (LedgerType)(num % 2),
-                    Money = (num % i + 1) * i 
-                });
-            }
-
-            list = list.OrderByDescending(x => x.Date).ToList();
+                Date = x.Dateee,
+                Type = (LedgerType)x.Categoryyy,
+                Money = x.Amounttt
+            });
 
             ViewData["Title"] = "我的記帳本";
 
