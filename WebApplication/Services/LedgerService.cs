@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using WebApplication.Helper;
 using WebApplication.Models;
+using WebApplication.Repositories;
 
 namespace WebApplication.Services
 {
     public class LedgerService
     {
+        private readonly string _homeworkDbConnectionString = ConfigurationManager.ConnectionStrings["HomeworkDB"].ConnectionString;
+
         /// <summary>
         /// 取得記帳本列表假資料
         /// </summary>
-        public IEnumerable<AccountBook> GetList()
+        public IEnumerable<AccountBook> GetFakeList()
         {
             var list = new List<AccountBook>();
             var count = 100;
@@ -30,6 +35,22 @@ namespace WebApplication.Services
             }
 
             return list.OrderByDescending(x => x.Dateee);
+        }
+
+        /// <summary>
+        /// 從DB取得記帳本列表
+        /// </summary>
+        public IEnumerable<AccountBook> GetList()
+        {
+            IEnumerable<AccountBook> list = new List<AccountBook>();
+
+            using (DBHelper dBHelper = new DBHelper(_homeworkDbConnectionString))
+            {
+                var ledgerRepository = new LedgerRepository(dBHelper.UnitOfWork);
+                list = ledgerRepository.GetAccountBookList();
+            }
+
+            return list;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@using WebApplication.Models.ViewModel
 @using WebApplication.Helper
-@model List<LedgerViewModel>
+@model IList<LedgerViewModel>
 @{ 
     Layout = null;
 }
@@ -23,13 +23,11 @@
                     foreach(var item in Model)
                     {
                         <tr>
-                            <td>@index</td>
+                            <td>@(index++)</td>
                             <td>@item.Type.GetLedgerTypeName()</td>
                             <td>@item.Date.ToString("yyyy-MM-dd")</td>
                             <td>@item.Money.ToString("N0")</td>
                         </tr>
-
-                        index++;
                     }
                 }
             </tbody>
