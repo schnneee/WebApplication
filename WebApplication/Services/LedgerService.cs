@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using WebApplication.Helper;
 using WebApplication.Models;
+using WebApplication.Models.ViewModel;
 using WebApplication.Repositories;
 
 namespace WebApplication.Services
@@ -15,9 +16,9 @@ namespace WebApplication.Services
         /// <summary>
         /// 取得記帳本列表假資料
         /// </summary>
-        public IEnumerable<AccountBook> GetFakeList()
+        public IEnumerable<LedgerViewModel> GetFakeList()
         {
-            var list = new List<AccountBook>();
+            var list = new List<LedgerViewModel>();
             var count = 100;
             var startDate = DateTime.Now.AddMonths(-3);
             var random = new Random();
@@ -26,21 +27,21 @@ namespace WebApplication.Services
             {
                 var num = random.Next(1, 1000);
 
-                list.Add(new AccountBook
+                list.Add(new LedgerViewModel
                 {
-                    Dateee = startDate.AddMinutes(num * i),
-                    Categoryyy = num % 2,
-                    Amounttt = (num % i + 1) * i
+                    Date = startDate.AddMinutes(num * i),
+                    Type = (LedgerType)(num % 2),
+                    Money = (num % i + 1) * i
                 });
             }
 
-            return list.OrderByDescending(x => x.Dateee);
+            return list.OrderByDescending(x => x.Date);
         }
 
         /// <summary>
         /// 從DB取得記帳本列表
         /// </summary>
-        public IEnumerable<AccountBook> GetList()
+        public IEnumerable<LedgerViewModel> GetList()
         {
             IEnumerable<AccountBook> list = new List<AccountBook>();
 
@@ -50,7 +51,14 @@ namespace WebApplication.Services
                 list = ledgerRepository.GetAccountBookList();
             }
 
-            return list;
+            var result = list.Select(x => new LedgerViewModel
+            {
+                Date = x.Dateee,
+                Type = x.Categoryyy.TryParseLedgerType(),
+                Money = x.Amounttt
+            }).OrderByDescending(x => x.Date).ToList();
+
+            return result;
         }
     }
 }

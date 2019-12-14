@@ -130,6 +130,7 @@
     </Compile>
     <Compile Include="Helper\DBHelper.cs" />
     <Compile Include="Helper\DisplayNameHelper.cs" />
+    <Compile Include="Helper\EnumHelper.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
     <Compile Include="Interfaces\ILedgerRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />

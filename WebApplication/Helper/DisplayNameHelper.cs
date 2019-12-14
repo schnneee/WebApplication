@@ -8,10 +8,10 @@ namespace WebApplication.Helper
         {
             switch (type)
             {
-                case LedgerType.income:
+                case LedgerType.Income:
                     return "收入";
 
-                case LedgerType.expend:
+                case LedgerType.Expend:
                     return "支出";
 
                 default:

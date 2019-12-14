@@ -16,7 +16,8 @@ namespace WebApplication.Models.ViewModel
 
     public enum LedgerType
     {
-        income = 1,
-        expend = 0
+        Income = 1,
+        Expend = 0,
+        Undefined = -9
     }
 }

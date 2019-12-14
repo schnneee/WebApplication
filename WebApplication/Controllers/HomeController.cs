@@ -16,6 +16,7 @@ namespace WebApplication.Controllers
 
         public ActionResult Index()
         {
+            ViewData["Title"] = "我的記帳本";
             return View();
         }
 
@@ -38,16 +39,7 @@ namespace WebApplication.Controllers
         {
             var list = _ledgerService.GetList();
 
-            var model = list.Select(x => new LedgerViewModel
-            {
-                Date = x.Dateee,
-                Type = (LedgerType)x.Categoryyy,
-                Money = x.Amounttt
-            }).OrderByDescending(x => x.Date).ToList();
-
-            ViewData["Title"] = "我的記帳本";
-
-            return View(model);
+            return View(list);
         }
     }
 }
