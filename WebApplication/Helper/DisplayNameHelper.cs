@@ -2,7 +2,7 @@
 
 namespace WebApplication.Helper
 {
-    public static class HtmlExtensions
+    public static class DisplayNameHelper
     {
         public static string GetLedgerTypeName(this LedgerType type)
         {
